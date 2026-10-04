@@ -7,7 +7,7 @@ on:
     branches: 
       [ main ]
     paths:
-    - '**'
+    - 'nodejs-microservices/packages/gateway-api/**'
     - '.github/workflows/zhenia-gateway-api-cicd-AutoDeployTrigger-a787e270-874d-403f-a0b2-2cb466463572.yml'
 
   # Allow manual trigger 
