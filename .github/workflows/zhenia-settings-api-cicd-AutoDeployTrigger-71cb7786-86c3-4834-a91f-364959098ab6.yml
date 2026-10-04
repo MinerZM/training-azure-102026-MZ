@@ -7,7 +7,7 @@ on:
     branches: 
       [ main ]
     paths:
-    - '**'
+    - 'nodejs-microservices/packages/settings-api/**'
     - '.github/workflows/zhenia-settings-api-cicd-AutoDeployTrigger-71cb7786-86c3-4834-a91f-364959098ab6.yml'
 
   # Allow manual trigger 
@@ -34,15 +34,15 @@ jobs:
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
+          appSourcePath: ${{ github.workspace }}/nodejs-microservices
+          dockerfilePath: /packages/settings-api/Dockerfile
           _targetLabelKey_: _targetLabel_
-          registryUrl: 
+          registryUrl: containerrgk00rn1q.azurecr.io
           registryUsername: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_PASSWORD }}
           containerAppName: zhenia-settings-api-cicd
           resourceGroup: Workshop-Zhenia-Group
-          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
+          imageToBuild: containerrgk00rn1q.azurecr.io/zhenia-settings-api-cicd:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
 
