@@ -1,0 +1,49 @@
+name: Trigger auto deployment for zhenia-settings-api-cicd
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/zhenia-settings-api-cicd-AutoDeployTrigger-71cb7786-86c3-4834-a91f-364959098ab6.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.ZHENIASETTINGSAPICICD_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.ZHENIASETTINGSAPICICD_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.ZHENIASETTINGSAPICICD_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: 
+          registryUsername: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_PASSWORD }}
+          containerAppName: zhenia-settings-api-cicd
+          resourceGroup: Workshop-Zhenia-Group
+          imageToBuild: default/[parameters('containerAppName')]:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
