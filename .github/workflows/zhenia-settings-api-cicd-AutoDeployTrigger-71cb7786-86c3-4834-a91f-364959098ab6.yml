@@ -38,8 +38,8 @@ jobs:
           dockerfilePath: /packages/settings-api/Dockerfile
           _targetLabelKey_: _targetLabel_
           registryUrl: containerrgk00rn1q.azurecr.io
-          registryUsername: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_USERNAME }}
-          registryPassword: ${{ secrets.ZHENIASETTINGSAPICICD_REGISTRY_PASSWORD }}
+          registryUsername: ${{ secrets.ZHENIAGATEWAYAPICICD_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ZHENIAGATEWAYAPICICD_REGISTRY_PASSWORD }}
           containerAppName: zhenia-settings-api-cicd
           resourceGroup: Workshop-Zhenia-Group
           imageToBuild: containerrgk00rn1q.azurecr.io/zhenia-settings-api-cicd:${{ github.sha }}
