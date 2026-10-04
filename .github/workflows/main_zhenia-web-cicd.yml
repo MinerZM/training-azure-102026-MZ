@@ -28,7 +28,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          cd /nodejs-microservices
+          cd nodejs-microservices
           npm install
           cd /packages/website
           npm run build 
